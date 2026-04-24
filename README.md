@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>Control AiDataTaskRunner Panel directly from Claude via MCP</strong>
+  <strong>Control AiDataTaskRunner Panel directly via MCP</strong>
 </p>
 
  
