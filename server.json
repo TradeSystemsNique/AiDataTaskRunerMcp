@@ -10,7 +10,7 @@
   },
   "packages": [
     {
-      "registry_type": "pypi",
+      "registryType": "pypi",
       "identifier": "aidatataskrunner-mcp",
       "version": "1.0.1"
     }
