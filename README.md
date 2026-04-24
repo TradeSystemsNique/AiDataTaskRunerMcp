@@ -44,7 +44,7 @@ Use Claude to automate your trading data pipeline:
 
 ---
 
-## Quick Start
+## Quick Start (With claude ai)
 
 ### 1. Install MCP Server
 
