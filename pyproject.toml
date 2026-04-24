@@ -26,6 +26,4 @@ Issues = "https://github.com/TradeSystemsNique/AiDataTaskRunerMcp/issues"
 aidatataskrunner-mcp = "Src.aidatataskruner_mcp:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["Src"]
-
- 
+packages = ["Src"] 
