@@ -1,3 +1,4 @@
+<!-- mcp-name: io.github.TradeSystemsNique/aidatataskrunner-mcp -->
 <p align="center">
   <img src="https://img.shields.io/badge/Language-Python-3776ab?style=flat-square"/>
   <img src="https://img.shields.io/badge/Protocol-MCP-1B6CA8?style=flat-square"/>
