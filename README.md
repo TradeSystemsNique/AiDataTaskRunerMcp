@@ -92,7 +92,7 @@ Claude will automatically translate this to the appropriate MCP call.
 
 ```
 AiDataTaskRunerMcp/
-└── Src/                      # Python MCP server source code
+└── aidatataskruner-mcp/                      # Python MCP server source code
     └── __init__.py
  
 ```
