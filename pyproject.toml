@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aidatataskrunner-mcp"
-version = "1.0.2"
+version = "1.0.3"
 description = "MCP server for AiDataTaskRunner Panel (MT5) - Control AiDataTaskRuner Panel for data generation and ML model training via MCP"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
@@ -18,9 +18,9 @@ dependencies = [
 ]
  
 [project.urls]
-Repository = "https://github.com/TradeSystemsNique/AiDataTaskRunerMcp"
-Documentation = "https://github.com/TradeSystemsNique/AiDataTaskRunerMcp"
-Issues = "https://github.com/TradeSystemsNique/AiDataTaskRunerMcp/issues"
+Repository = "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp"
+Documentation = "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp"
+Issues = "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp/issues"
 
 [project.scripts]
 aidatataskrunner-mcp = "aidatataskruner-mcp.aidatataskruner_mcp:main"
