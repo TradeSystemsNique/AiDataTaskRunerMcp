@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "aidatataskrunner-mcp"
-version = "1.0.4"
+name = "aidatataskrunner_mcp"
+version = "1.0.5"
 description = "MCP server for AiDataTaskRunner Panel (MT5) - Control AiDataTaskRuner Panel for data generation and ML model training via MCP"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
@@ -23,7 +23,7 @@ Documentation = "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp"
 Issues = "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp/issues"
 
 [project.scripts]
-aidatataskrunner-mcp = "aidatataskrunner-mcp.aidatataskruner_mcp:main"
+aidatataskrunner_mcp = "aidatataskrunner_mcp.aidatataskruner_mcp:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["aidatataskruner-mcp"] 
+packages = ["aidatataskrunner_mcp"] 
