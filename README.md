@@ -72,13 +72,16 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-### 3. Connect with AiDataTaskRunner Panel
+### 3. Configure your MT5
+Navigate to the "Tools" section >> "Options" >> "Allowed URLs for WebRequest", add a new field with the host/address you will be using (in this case "127.0.0.1"), and click Accept.
+
+### 4. Connect with AiDataTaskRunner Panel
 
 Start your AiDataTaskRunner Panel in MT5 with the AI tab enabled:
 - The panel will connect to the MCP server on port 9999
 - Claude will automatically detect available tools
 
-### 4. Use in Claude
+### 5. Use in Claude
 
 ```
 Add a new EURUSD backtest from 2023.01.01 to 2024.01.01 on H1 timeframe
