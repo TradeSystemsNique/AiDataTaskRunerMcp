@@ -23,7 +23,7 @@ Documentation = "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp"
 Issues = "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp/issues"
 
 [project.scripts]
-aidatataskrunner-mcp = "aidatataskruner-mcp.aidatataskruner_mcp:main"
+aidatataskrunner-mcp = "aidatataskrunner-mcp.aidatataskruner_mcp:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["aidatataskruner-mcp"] 
