@@ -10,7 +10,7 @@
     "hooks": {
         "pre_install": [
             {
-                "command": "pip install -r requirements.txt",
+                "command": "pip install -r \"${{repo.root}}${{os.sep}}AiDataTaskRunerMcp${{os.sep}requirements.txt\"",
                 "permitir_fallo": false,
                 "timeout_ms": 30000
             }
@@ -19,7 +19,7 @@
         "post_install_only_on_success": true,
         "pre_update": [
             {
-                "command": "pip install -r requirements.txt --upgrade",
+                "command": "pip install -r \"${{repo.root}}${{os.sep}}AiDataTaskRunerMcp${{os.sep}}requirements.txt\" --upgrade",
                 "permitir_fallo": false,
                 "timeout_ms": 30000
             }
