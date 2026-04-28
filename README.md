@@ -119,7 +119,7 @@ AiDataTaskRunerMcp/
 
 ```bash
 cd "C:\Users\YOUR USER\AppData\Roaming\MetaQuotes\Terminal\YOUR ID\MQL5\Shared Projects"
-tsndep install "https://forge.mql5.io/nique_372/FullMt5McpByLeo.git"
+tsndep install "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp.git"
 ```
 - For use tsndep command requerid tsndep pacakage (avaible in [pypi](https://pypi.org/project/tsndep)).. This command automatically downloads all dependencies and installs all requirements from the repositories.
 
