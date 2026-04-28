@@ -20,16 +20,16 @@
 
 ### Task Management
 Control your backtesting queue directly from Claude:
-- **Add Tasks** — Queue new backtests with custom symbols, dates, and timeframes
-- **Monitor Status** — Track task progress (Processing, Queued, Pending, Ready, Failed)
-- **Batch Operations** — Execute all pending tasks or clean completed ones
-- **File Management** — Save/load task configurations from CSV files
+- **Add Tasks:** Queue new backtests with custom symbols, dates, and timeframes
+- **Monitor Status:** Track task progress (Processing, Queued, Pending, Ready, Failed)
+- **Batch Operations:** Execute all pending tasks or clean completed ones
+- **File Management:** Save/load task configurations from CSV files
 
 ### Configuration Control
 Manage panel settings via Claude:
-- **Load/Save Configurations** — Save and load panel settings from text files
-- **Query Folders** — Check data generation and task storage locations
-- **System Information** — Access MT5 logs and system time
+- **Load/Save Configurations:** Save and load panel settings from text files
+- **Query Folders:** Check data generation and task storage locations
+- **System Information:** Access MT5 logs and system time
 
 ### Natural Language Integration
 Use Claude to automate your trading data pipeline:
