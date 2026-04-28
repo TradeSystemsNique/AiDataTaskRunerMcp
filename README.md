@@ -106,7 +106,7 @@ AiDataTaskRunerMcp/
 
 ### Python
 - Python >= 3.10
-- Dependencies listed in `requirements.txt` and `pyproject.toml`
+- Dependencies listed in dependencies.json (or sub-dependencies of this repo)
 
 ### MetaTrader 5
 - AiDataTaskRunner Panel installed and configured
@@ -115,28 +115,13 @@ AiDataTaskRunerMcp/
 
 ---
 
-## Installation of Repository Code
+## Installation
 
-### Clone
 ```bash
-git clone https://github.com/TradeSystemsNique/AiDataTaskRunerMcp.git
-cd AiDataTaskRunerMcp
+cd "C:\Users\YOUR USER\AppData\Roaming\MetaQuotes\Terminal\YOUR ID\MQL5\Shared Projects"
+tsndep install "https://forge.mql5.io/nique_372/FullMt5McpByLeo.git"
 ```
-
-### Install for Development
-```bash
-pip install -e .
-```
-
-### Run Locally
-```bash
-aidatataskrunner-mcp
-```
-### Contact me
-Contact me privately on MQL5 chats (user: nique_372) to be added as a collaborator with your MQL5 nickname (read-only access), which will make the repository automatically appear in your Shared Projects folder.
-
-### Fork
-Fork the repository.
+- For use tsndep command requerid tsndep pacakage (avaible in pypi).. This command automatically downloads all dependencies and installs all requirements from the repositories.
 
 ---
 
@@ -176,6 +161,11 @@ Full documentation is available in the main repository:
 - [MCP Integration Guide](https://forge.mql5.io/nique_372/AiDataTaskRuner/wiki/AiMCP)
 - [MCP Integration Guide with claude](https://forge.mql5.io/nique_372/AiDataTaskRuner/wiki/AiMcpClaude)
 
+---
+
+## Contact
+- **Platform:** [MQL5 Community](https://www.mql5.com/es/users/nique_372)
+- **Profile:** https://www.mql5.com/es/users/nique_372/news
  
 ---
 
