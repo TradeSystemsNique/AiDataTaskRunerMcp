@@ -66,7 +66,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "aidatataskrunner": {
       "command": "python",
-      "args": ["-m", "aidatataskrunner_mcp", "--host", "127.0.0.1", "--port", "9999"]
+      "args": ["-m", "aidatataskrunner_mcp", "--host", "127.0.0.1", "--port", "8080"]
     }
   }
 }
