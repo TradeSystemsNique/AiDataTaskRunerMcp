@@ -3,6 +3,7 @@ import json
 import threading
 import argparse
 from mcp.server.fastmcp import FastMCP
+from typing import Dict, Any
 
 #+------------------------------------------------------------------+
 #| Args                                                             |
@@ -30,6 +31,7 @@ def esperar_mt5():
     server_sock.bind((HOST, PORT))
     server_sock.listen(1)
     mt5_conn, _ = server_sock.accept()  # espera a que MT5 conecte
+    mt5_conn.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
 # Arranca en hilo separado, no bloquea el MCP
 # La idea esq ue exista mientras que se termine por fin de conectar con mt5
@@ -38,21 +40,40 @@ threading.Thread(target=esperar_mt5, daemon=True).start()
 #+------------------------------------------------------------------+
 #| Send                                                             |
 #+------------------------------------------------------------------+
-def send(name: str, payload: str) -> str:
+def send(name: str, payload: Dict[str, Any]) -> str:
     if mt5_conn is None:
         return json.dumps({"ok": False, "error": "mt5_no_conectado"})
-    msg = json.dumps({"name": name, "data": json.loads(payload)}) + "\n"
-    mt5_conn.sendall(msg.encode("utf-8"))
-    return mt5_conn.recv(4096).decode("utf-8").strip()
+    
+    try:
+        payload_clean = json.dumps(payload, separators=(',', ':'))
+        msg = f'{{"name":"{name}","data":{payload_clean}}}\n'
+        
+        # Enviamos
+        mt5_conn.sendall( msg.encode("utf-8"))
+        
+        # Esperamos la repuesta
+        response = b""
+        while not response.endswith(b"\n"):
+            chunk = mt5_conn.recv(4096)
+            if not chunk:
+                return json.dumps({"ok": False, "error": "mt5_desconectado"})
+            response += chunk
+        
+        return response.decode("utf-8").strip()
+    
+    except Exception as e:
+        return json.dumps({"ok": False, "error": str(e)})
 
+#+------------------------------------------------------------------+
+#| Funciones                                                        |
 #+------------------------------------------------------------------+
 # Funciones
 @mcp.tool()
-def aidatataskrunner_add_task(payload: str) -> str:
+def aidatataskrunner_add_task(payload: Dict[str, Any]) -> str:
     """
     Agrega una nueva tarea de backtest a la tabla de AiDataTaskRunner.
 
-    Parametros (JSON):
+    Parametros (DICT):
       - symbol        (string, requerido): Simbolo de trading. Ej: "EURUSD", "XAUUSD"
       - start_date    (string, requerido): Fecha inicio. Formato: "YYYY.MM.DD HH:MM"
       - end_date      (string, requerido): Fecha fin.   Formato: "YYYY.MM.DD HH:MM"
@@ -73,11 +94,11 @@ def aidatataskrunner_add_task(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_get_task_total(payload: str) -> str:
+def aidatataskrunner_get_task_total(payload: Dict[str, Any]) -> str:
     """
     Retorna el numero total de tareas actualmente en la tabla.
 
-    Parametros: ninguno, pasar JSON vacio "{}"
+    Parametros: ninguno, pasar DICT vacio "{}"
 
     Retorna (JSON):
       - ok     (boolean): true si la consulta fue exitosa
@@ -90,12 +111,12 @@ def aidatataskrunner_get_task_total(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_get_task_by_index(payload: str) -> str:
+def aidatataskrunner_get_task_by_index(payload: Dict[str, Any]) -> str:
     """
     Retorna los detalles completos de una tarea segun su indice en la tabla.
     Usar aidatataskrunner_get_task_total para conocer el total antes de llamar.
 
-    Parametros (JSON):
+    Parametros (DICT):
       - index (integer, requerido): Indice base 0 de la tarea
 
     Retorna (JSON):
@@ -109,11 +130,11 @@ def aidatataskrunner_get_task_by_index(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_get_task_status(payload: str) -> str:
+def aidatataskrunner_get_task_status(payload: Dict[str, Any]) -> str:
     """
     Retorna el estado actual de una tarea segun su indice en la tabla.
 
-    Parametros (JSON):
+    Parametros (DICT):
       - index (integer, requerido): Indice base 0 de la tarea
 
     Retorna (JSON):
@@ -132,12 +153,12 @@ def aidatataskrunner_get_task_status(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_clean_all_tasks(payload: str) -> str:
+def aidatataskrunner_clean_all_tasks(payload: Dict[str, Any]) -> str:
     """
     Elimina de la tabla todas las tareas que no esten en ejecucion ni en cola.
     Las tareas con estado Procesando o En cola no se eliminan.
 
-    Parametros: ninguno, pasar JSON vacio "{}"
+    Parametros: ninguno, pasar DICT vacio "{}"
 
     Retorna (JSON):
       - ok     (boolean): true si se limpio al menos una tarea
@@ -150,12 +171,12 @@ def aidatataskrunner_clean_all_tasks(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_execute_all_tasks(payload: str) -> str:
+def aidatataskrunner_execute_all_tasks(payload: Dict[str, Any]) -> str:
     """
     Pone en cola de ejecucion todas las tareas con estado Pendiente.
     Operacion fire-and-forget: retorna inmediatamente sin esperar resultado.
 
-    Parametros: ninguno, pasar JSON vacio "{}"
+    Parametros: ninguno, pasar DICT vacio "{}"
 
     Retorna (JSON):
       - ok     (boolean): siempre true
@@ -168,13 +189,13 @@ def aidatataskrunner_execute_all_tasks(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_save_tasks_to_file(payload: str) -> str:
+def aidatataskrunner_save_tasks_to_file(payload: Dict[str, Any]) -> str:
     """
     Guarda las tareas de la tabla en un archivo CSV.
     La ruta es relativa a la carpeta de trabajo de MT5.
     Consultar aidatataskrunner_is_in_commonfolder para saber si es Common\\Files\\ o MQL5\\Files\\.
 
-    Parametros (JSON):
+    Parametros (DICT):
       - file_name       (string,  requerido): Ruta relativa del archivo .csv destino
       - only_unfinished (boolean, requerido): true = guardar solo pendientes/en cola/procesando | false = guardar todas
 
@@ -189,13 +210,13 @@ def aidatataskrunner_save_tasks_to_file(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_load_tasks_from_file(payload: str) -> str:
+def aidatataskrunner_load_tasks_from_file(payload: Dict[str, Any]) -> str:
     """
     Carga tareas desde un archivo CSV y las agrega a la tabla.
     La ruta es relativa a la carpeta de trabajo de MT5.
     Consultar aidatataskrunner_is_in_commonfolder para saber si es Common\\Files\\ o MQL5\\Files\\.
 
-    Parametros (JSON):
+    Parametros (DICT):
       - file_name (string, requerido): Ruta relativa del archivo .csv a cargar
 
     Retorna (JSON):
@@ -209,13 +230,13 @@ def aidatataskrunner_load_tasks_from_file(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_load_config(payload: str) -> str:
+def aidatataskrunner_load_config(payload: Dict[str, Any]) -> str:
     """
     Carga la configuracion del tab de generacion de datos desde un archivo .txt.
     La ruta es relativa a la carpeta de trabajo de MT5.
     Consultar aidatataskrunner_is_in_commonfolder para saber si es Common\\Files\\ o MQL5\\Files\\.
 
-    Parametros (JSON):
+    Parametros (DICT):
       - file_name (string, requerido): Ruta relativa del archivo .txt a cargar
 
     Retorna (JSON):
@@ -229,13 +250,13 @@ def aidatataskrunner_load_config(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_save_config(payload: str) -> str:
+def aidatataskrunner_save_config(payload: Dict[str, Any]) -> str:
     """
     Guarda la configuracion actual del tab de generacion de datos en un archivo .txt.
     La ruta es relativa a la carpeta de trabajo de MT5.
     Consultar aidatataskrunner_is_in_commonfolder para saber si es Common\\Files\\ o MQL5\\Files\\.
 
-    Parametros (JSON):
+    Parametros (DICT):
       - file_name (string, requerido): Ruta relativa del archivo .txt destino
 
     Retorna (JSON):
@@ -249,12 +270,12 @@ def aidatataskrunner_save_config(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_get_main_folder(payload: str) -> str:
+def aidatataskrunner_get_main_folder(payload: Dict[str, Any]) -> str:
     """
     Retorna la ruta de la carpeta base principal usada por AiDataTaskRunner.
     Relativa a Common\\Files\\ o MQL5\\Files\\ segun aidatataskrunner_is_in_commonfolder.
 
-    Parametros: ninguno, pasar JSON vacio "{}"
+    Parametros: ninguno, pasar DICT vacio "{}"
 
     Retorna (JSON):
       - ok     (boolean): true siempre
@@ -267,12 +288,12 @@ def aidatataskrunner_get_main_folder(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_get_task_folder(payload: str) -> str:
+def aidatataskrunner_get_task_folder(payload: Dict[str, Any]) -> str:
     """
     Retorna la ruta de la carpeta donde se almacenan los archivos de tareas.
     Relativa a Common\\Files\\ o MQL5\\Files\\ segun aidatataskrunner_is_in_commonfolder.
 
-    Parametros: ninguno, pasar JSON vacio "{}"
+    Parametros: ninguno, pasar DICT vacio "{}"
 
     Retorna (JSON):
       - ok     (boolean): true siempre
@@ -285,13 +306,13 @@ def aidatataskrunner_get_task_folder(payload: str) -> str:
 
 #+------------------------------------------------------------------+
 @mcp.tool()
-def aidatataskrunner_is_in_commonfolder(payload: str) -> str:
+def aidatataskrunner_is_in_commonfolder(payload: Dict[str, Any]) -> str:
     """
     Indica si AiDataTaskRunner esta operando sobre la carpeta comun de MT5 (Common\\Files\\)
     o sobre la carpeta local del terminal (MQL5\\Files\\).
     Util para construir rutas correctas antes de llamar a otras funciones.
 
-    Parametros: ninguno, pasar JSON vacio "{}"
+    Parametros: ninguno, pasar DICT vacio "{}"
 
     Retorna (JSON):
       - ok     (boolean): true siempre
