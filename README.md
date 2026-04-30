@@ -20,16 +20,16 @@
 
 ### Task Management
 Control your backtesting queue directly from Claude:
-- **Add Tasks** — Queue new backtests with custom symbols, dates, and timeframes
-- **Monitor Status** — Track task progress (Processing, Queued, Pending, Ready, Failed)
-- **Batch Operations** — Execute all pending tasks or clean completed ones
-- **File Management** — Save/load task configurations from CSV files
+- **Add Tasks:** Queue new backtests with custom symbols, dates, and timeframes
+- **Monitor Status:** Track task progress (Processing, Queued, Pending, Ready, Failed)
+- **Batch Operations:** Execute all pending tasks or clean completed ones
+- **File Management:** Save/load task configurations from CSV files
 
 ### Configuration Control
 Manage panel settings via Claude:
-- **Load/Save Configurations** — Save and load panel settings from text files
-- **Query Folders** — Check data generation and task storage locations
-- **System Information** — Access MT5 logs and system time
+- **Load/Save Configurations:** Save and load panel settings from text files
+- **Query Folders:** Check data generation and task storage locations
+- **System Information:** Access MT5 logs and system time
 
 ### Natural Language Integration
 Use Claude to automate your trading data pipeline:
@@ -119,9 +119,9 @@ AiDataTaskRunerMcp/
 
 ```bash
 cd "C:\Users\YOUR USER\AppData\Roaming\MetaQuotes\Terminal\YOUR ID\MQL5\Shared Projects"
-tsndep install "https://forge.mql5.io/nique_372/FullMt5McpByLeo.git"
+tsndep install "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp.git"
 ```
-- For use tsndep command requerid tsndep pacakage (avaible in pypi).. This command automatically downloads all dependencies and installs all requirements from the repositories.
+- For use tsndep command requerid tsndep pacakage (avaible in [pypi](https://pypi.org/project/tsndep)).. This command automatically downloads all dependencies and installs all requirements from the repositories.
 
 ---
 
