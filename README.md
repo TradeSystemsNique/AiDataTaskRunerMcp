@@ -45,7 +45,42 @@ Use Claude to automate your trading data pipeline:
 
 ---
 
-## Quick Start (With claude ai)
+## Repository Structure
+
+```
+AiDataTaskRunerMcp/
+└── aidatataskrunner_mcp/                      # Python MCP server source code
+    └── __init__.py
+ 
+```
+
+---
+
+## Requirements
+
+- For repo code
+> - Check: [dependencies.json](./dependencies.json)
+
+- For user use:
+> - Check: [pyproject.toml](./pyproject.toml) por py dependencies and min py version.
+> - EX5 of releases (Runner an McPServer).
+> - McpServer requerid a EX5 Library, pucharse in: [TheBotPlace - McpServerByLeo](https://www.thebotplace.com/bot/mcpserverbyleo)
+
+---
+ 
+
+## Installation
+
+```bash
+cd "C:\Users\YOUR USER\AppData\Roaming\MetaQuotes\Terminal\YOUR ID\MQL5\Shared Projects"
+tsndep install "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp.git"
+```
+- For use tsndep command requerid tsndep pacakage (avaible in [pypi](https://pypi.org/project/tsndep)).. This command automatically downloads all dependencies and installs all requirements from the repositories.
+
+
+---
+
+## Quick Start (With claude ai) for final users
 
 ### 1. Install MCP Server
 
@@ -89,41 +124,9 @@ Add a new EURUSD backtest from 2023.01.01 to 2024.01.01 on H1 timeframe
 
 Claude will automatically translate this to the appropriate MCP call.
 
----
 
-## Repository Structure
 
-```
-AiDataTaskRunerMcp/
-└── aidatataskrunner_mcp/                      # Python MCP server source code
-    └── __init__.py
- 
-```
-
----
-
-## Requirements
-
-### Python
-- Python >= 3.10
-- Dependencies listed in dependencies.json (or sub-dependencies of this repo)
-
-### MetaTrader 5
-- AiDataTaskRunner Panel installed and configured
-- MCP connection enabled in the AI tab
-- Network connectivity between Claude and MT5 (default: localhost:9999)
-
----
-
-## Installation
-
-```bash
-cd "C:\Users\YOUR USER\AppData\Roaming\MetaQuotes\Terminal\YOUR ID\MQL5\Shared Projects"
-tsndep install "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp.git"
-```
-- For use tsndep command requerid tsndep pacakage (avaible in [pypi](https://pypi.org/project/tsndep)).. This command automatically downloads all dependencies and installs all requirements from the repositories.
-
----
+--- 
 
 ## Available Tools
 
