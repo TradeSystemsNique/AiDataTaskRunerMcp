@@ -62,8 +62,7 @@ AiDataTaskRunerMcp/
 > - Check: [dependencies.json](./dependencies.json)
 
 - For user use:
-> - Check: [pyproject.toml](./pyproject.toml) por py dependencies and min py version.
-> - EX5 of releases (Runner an McPServer).
+> - AiDataTaskRunner panel
 > - McpServer requerid a EX5 Library, pucharse in: [TheBotPlace - McpServerByLeo](https://www.thebotplace.com/bot/mcpserverbyleo)
 
 ---
@@ -87,12 +86,32 @@ tsndep install "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp.git"
 ```bash
 # Install from PyPI
 pip install aidatataskrunner-mcp
-
-# Or install in development mode
-pip install -e .
 ```
 
-### 2. Configure in Claude Desktop
+### 2. Create a config json 
+
+Open Common\\Files
+And create a file with this structure:
+
+```json
+{
+    "general_config": {
+        "port": 9999,
+        "host": "localhost",
+        "mode": "fast_mcp"
+    },
+    "fast_mcp": {
+        "name": "FastMcpServer"
+    },
+    "http": {
+        "http_port": 8000,
+        "name": "HTTP Server",
+        "tools_namespace": "tools"
+    }
+}
+```
+
+### 3. Configure in Claude Desktop
 
 Add to your `claude_desktop_config.json`:
 
@@ -101,25 +120,36 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "aidatataskrunner": {
       "command": "python",
-      "args": ["-m", "aidatataskrunner_mcp", "--host", "127.0.0.1", "--port", "8080"]
+      "args": ["-m", 
+      "aidatataskrunner_mcp", 
+      "--config", 
+      "PATH_TO_FILE", 
+      "--config_encodig", 
+      "utf-8"
+      ]
     }
   }
 }
 ```
 
-### 3. Configure your MT5
+- PATH_TO_FILE: Path to json config file 
+
+### 4. Configure your MT5
 Navigate to the "Tools" section >> "Options" >> "Allowed URLs for WebRequest", add a new field with the host/address you will be using (in this case "127.0.0.1"), and click Accept.
 
-### 4. Connect with AiDataTaskRunner Panel
+### 5. Connect with AiDataTaskRunner Panel
 
 Start your AiDataTaskRunner Panel in MT5 with the AI tab enabled:
 - The panel will connect to the MCP server on port 9999
 - Claude will automatically detect available tools
 
-### 5. Use in Claude
+### 6. Use in Claude
 
-```
-Add a new EURUSD backtest from 2023.01.01 to 2024.01.01 on H1 timeframe
+```md
+- Add a new EURUSD task from 2023.01.01 to 2024.01.01 on H1 timeframe, and Symbol Folder = XAUUSD, Label id = 0
+- Give me the total number of tasks I have
+- Clean all task
+- Run all task
 ```
 
 Claude will automatically translate this to the appropriate MCP call.
