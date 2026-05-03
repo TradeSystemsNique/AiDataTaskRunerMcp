@@ -154,6 +154,8 @@ Start your AiDataTaskRunner Panel in MT5 with the AI tab enabled:
 
 Claude will automatically translate this to the appropriate MCP call.
 
+Note:
+> You can also use HTTP Remote with the help of "mcp-remote" (see: https://forge.mql5.io/nique_372/McpServer/wiki/Running-HTTP)
 
 
 --- 
