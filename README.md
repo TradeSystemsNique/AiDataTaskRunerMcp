@@ -13,7 +13,6 @@
   <strong>Control AiDataTaskRunner Panel directly via MCP</strong>
 </p>
 
- 
 ---
 
 ## Main features
@@ -49,25 +48,18 @@ Use Claude to automate your trading data pipeline:
 
 ```
 AiDataTaskRunerMcp/
-└── aidatataskrunner_mcp/                      # Python MCP server source code
-    └── __init__.py
+└── aidatataskrunner_mcp/                      # JSON Tools definition
  
 ```
 
 ---
 
 ## Requirements
-
-- For repo code
-> - Check: [dependencies.json](./dependencies.json)
-
-- For user use:
-> - AiDataTaskRunner panel
-> - McpServer requerid a EX5 Library, pucharse in: [TheBotPlace - McpServerByLeo](https://www.thebotplace.com/bot/mcpserverbyleo)
+- AiDataTaskRunner panel functional.
+- License for McpServer requerid a EX5 Library, and EXE for McpServer, pucharse in: [TheBotPlace - McpServerByLeo](https://www.thebotplace.com/bot/mcpserverbyleo)
 
 ---
  
-
 ## Installation
 
 ```bash
@@ -81,68 +73,73 @@ tsndep install "https://forge.mql5.io/nique_372/AiDataTaskRunerMcp.git"
 
 ## Quick Start (With claude ai) for final users
 
-### 1. Install MCP Server
 
-```bash
-# Install from PyPI
-pip install aidatataskrunner-mcp
-```
-
-### 2. Create a config json 
+ 
+### 1. Create a config json 
 
 Open Common\\Files
-And create a file with this structure:
+And create a json file with this structure:
 
 ```json
 {
-    "general_config": {
-        "port": 9999,
-        "host": "localhost",
-        "mode": "fast_mcp"
-    },
-    "fast_mcp": {
-        "name": "FastMcpServer"
-    },
-    "http": {
-        "http_port": 8000,
-        "name": "HTTP Server",
-        "tools_namespace": "tools"
-    }
+  "general": {
+    "type_reg": "stdio_stdin",
+    "json_tools_fpath": "JSON_TOOL_PATH"
+  },
+  "mt5_conn": {
+    "host": "127.0.0.1",
+    "port": 9999
+  },
+  "http_lib": {
+    "name": "McpMt5Server",
+    "version": "1.0.0",
+    "host": "127.0.0.1",
+    "port": 8080,
+    "endpoint": "/"
+  },
+  "stdio_stdin": {
+    "name": "MT5 MCP Server",
+    "version": "1.0.0"
+  }
 }
 ```
 
-### 3. Configure in Claude Desktop
+- JSON_TOOL_PATH: Path to the tools configuration json (you can download the json from the aidatataskrunner_mcp folder and place it in documents for example and put the path to said file here...) Or if you have the repository cloned, you can use the path to tools.json
+
+### 2. Configure in Claude Desktop
 
 Add to your `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "aidatataskrunner": {
-      "command": "python",
-      "args": ["-m", 
-      "aidatataskrunner_mcp", 
-      "--config", 
-      "PATH_TO_FILE", 
-      "--config_encodig", 
-      "utf-8"
+    "aidatataskrunner_mcp": {
+      "command": "PATH_TO_EXE",
+      "args": ["PATH_TO_FILE", "YOUR_TBP_ID", "YOUR_MT5_ACCOUNT_LOGIN_ID" 
       ]
     }
   }
 }
 ```
 
-- PATH_TO_FILE: Path to json config file 
+- PATH_TO_EXE: Path to exe McpServer file
+- PATH_TO_FILE: Path to json config file
+- YOUR_TBP_ID: Your The Bot Place user ID
+- YOUR_MT5_ACCOUNT_LOGIN_ID: ACCOUNT_LOGGIN of your mt5 account where AiDataTaskRunner Panel EA is running
 
-### 4. Configure your MT5
-Navigate to the "Tools" section >> "Options" >> "Allowed URLs for WebRequest", add a new field with the host/address you will be using (in this case "127.0.0.1"), and click Accept.
+### 3. Configure your MT5
+In MT5: **Tools** → **Options** → **Allowed URLs for WebRequest**
+- Add `127.0.0.1` or host you configured.
+- Click **Accept**
+- Enable AutoTrading and DLL imports
+
+### 4. Open claude desktop 
+Open Claude Desktop. At that moment, a Python script is running in the background until it establishes a connection with the EA McpServer.ex5.
 
 ### 5. Connect with AiDataTaskRunner Panel
 
-Start your AiDataTaskRunner Panel in MT5 with the AI tab enabled:
-- The panel will connect to the MCP server on port 9999
-- Claude will automatically detect available tools
-
+Start your AiDataTaskRunner Panel in MT5, then go to the Ai tab and then to Mcp, finally configure the server and launch it. A new chart will open with a new EA.
+ 
 ### 6. Use in Claude
 
 ```md
@@ -162,24 +159,7 @@ Note:
 
 ## Available Tools
 
-### Task Management
-- `aidatataskrunner_add_task` — Add a new backtest task
-- `aidatataskrunner_get_task_total` — Get total task count
-- `aidatataskrunner_get_task_by_index` — Get task details by index
-- `aidatataskrunner_get_task_status` — Get task execution status
-- `aidatataskrunner_execute_all_tasks` — Execute all pending tasks
-- `aidatataskrunner_clean_all_tasks` — Clean completed tasks
-
-### File Operations
-- `aidatataskrunner_save_tasks_to_file` — Export tasks to CSV
-- `aidatataskrunner_load_tasks_from_file` — Import tasks from CSV
-- `aidatataskrunner_save_config` — Save panel configuration
-- `aidatataskrunner_load_config` — Load panel configuration
-
-### Information Queries
-- `aidatataskrunner_get_main_folder` — Get main data folder path
-- `aidatataskrunner_get_task_folder` — Get tasks folder path
-- `aidatataskrunner_is_in_commonfolder` — Check if using common MT5 folder
+Check: [Tools definition.](./aidatataskrunner_mcp/tools.json)
 
 ---
 ## License
